@@ -86,7 +86,6 @@ describe('Testing Image processing Api', function () {
                 case 0: return [4 /*yield*/, request.get('/api/images?name=fjord&height=200')];
                 case 1:
                     response = _a.sent();
-                    console.log(response.body);
                     expect(response.statusCode).toBe(400);
                     return [2 /*return*/];
             }
@@ -97,6 +96,18 @@ describe('Testing Image processing Api', function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, request.get('/api/images?name=fjord&height=200&width=-1')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.statusCode).toBe(400);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Testing that endpoint verify that the file name exists in the original images folder', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/images?name=randomName&height=200&width=200')];
                 case 1:
                     response = _a.sent();
                     expect(response.statusCode).toBe(400);

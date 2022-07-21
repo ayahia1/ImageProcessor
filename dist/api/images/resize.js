@@ -40,16 +40,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var sharp_1 = __importDefault(require("sharp"));
-function resize(ogFileName, width, height, filePath) {
+var path_1 = __importDefault(require("path"));
+function resize(ogFileName, width, height, newFilePath) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, sharp_1.default)(__dirname + '/imagesFolder/' + ogFileName + '.jpg')
+                case 0: return [4 /*yield*/, (0, sharp_1.default)(path_1.default.join(__dirname, 'imagesFolder', 'original', ogFileName))
                         .resize({
                         width: width,
                         height: height
                     })
-                        .toFile(filePath)];
+                        .toFile(newFilePath)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];

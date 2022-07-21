@@ -20,12 +20,16 @@ describe('Testing Image processing Api', (): void => {
 
   it('Testing that the endpoint checks the existence of the width parameter', async () => {
     const response = await request.get('/api/images?name=fjord&height=200');
-    console.log(response.body);
     expect(response.statusCode).toBe(400);
   });
 
   it('Testing that endpoint verify that the givn width is numerical positive number', async () => {
     const response = await request.get('/api/images?name=fjord&height=200&width=-1');
+    expect(response.statusCode).toBe(400);
+  });
+
+  it('Testing that endpoint verify that the file name exists in the original images folder', async () => {
+    const response = await request.get('/api/images?name=randomName&height=200&width=200');
     expect(response.statusCode).toBe(400);
   });
 });

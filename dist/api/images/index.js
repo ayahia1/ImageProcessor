@@ -56,14 +56,13 @@ imagesRouter.use((0, morgan_1.default)('combined', {
     }
 }));
 imagesRouter.get('/', verifyRequest_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var width, height, ogFileName, ogFilePath, newFileName, newFilePath, _err_1;
+    var width, height, ogFileName, newFileName, newFilePath, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 width = parseInt(req.query.width);
                 height = parseInt(req.query.height);
                 ogFileName = req.query.name + '.jpg';
-                ogFilePath = path_1.default.join(__dirname, 'imagesFolder', 'original', ogFileName);
                 newFileName = ogFileName + 'x' + width + 'x' + height + '.jpg';
                 newFilePath = path_1.default.join(__dirname, 'imagesFolder', 'thumbnail', newFileName);
                 if (!fs_1.default.existsSync(newFilePath)) return [3 /*break*/, 1];
@@ -71,13 +70,14 @@ imagesRouter.get('/', verifyRequest_1.default, function (req, res) { return __aw
                 return [3 /*break*/, 4];
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, resize_1.default)(ogFilePath, width, height, newFilePath)];
+                return [4 /*yield*/, (0, resize_1.default)(ogFileName, width, height, newFilePath)];
             case 2:
                 _a.sent();
                 res.sendFile(newFilePath);
                 return [3 /*break*/, 4];
             case 3:
-                _err_1 = _a.sent();
+                err_1 = _a.sent();
+                console.log(err_1);
                 res.status(500).send({ messsage: ERR });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
