@@ -20,19 +20,20 @@ imagesRouter.use(
 );
 
 imagesRouter.get('/', verifyRequest, async (req: Request, res: Response) => {
-  const ogFileName = req.query.name as unknown as string;
   const width = parseInt(req.query.width as unknown as string);
   const height = parseInt(req.query.height as unknown as string);
+  const ogFileName = (req.query.name as unknown as string) + '.jpg';
   const newFileName = ogFileName + 'x' + width + 'x' + height + '.jpg';
-  const filePath = __dirname + '/imagesFolder/' + newFileName;
+  const newFilePath = path.join(__dirname, 'imagesFolder', 'thumbnail', newFileName);
 
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
+  if (fs.existsSync(newFilePath)) {
+    res.sendFile(newFilePath);
   } else {
     try {
-      await resize(ogFileName, width, height, filePath);
-      res.sendFile(filePath);
-    } catch (_err) {
+      await resize(ogFileName, width, height, newFilePath);
+      res.sendFile(newFilePath);
+    } catch (err) {
+      console.log(err);
       res.status(500).send({ messsage: ERR });
     }
   }

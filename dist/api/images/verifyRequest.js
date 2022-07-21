@@ -39,49 +39,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var fs_1 = __importDefault(require("fs"));
+var file_exists_1 = __importDefault(require("file-exists"));
 var path_1 = __importDefault(require("path"));
-var morgan_1 = __importDefault(require("morgan"));
-var resize_1 = __importDefault(require("./resize"));
-var verifyRequest_1 = __importDefault(require("./verifyRequest"));
-var imagesRouter = (0, express_1.Router)();
-var ERR = "Internal Server Error! Please notify the api authors and check later";
-//Adding logging to keep a record for when the endpoint is trie
-var accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, 'access.log'), { flags: 'a+' });
-imagesRouter.use((0, morgan_1.default)('combined', {
-    stream: accessLogStream,
-    skip: function (_req, res) {
-        return res.statusCode != 200;
-    }
-}));
-imagesRouter.get('/', verifyRequest_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var width, height, ogFileName, ogFilePath, newFileName, newFilePath, _err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                width = parseInt(req.query.width);
-                height = parseInt(req.query.height);
-                ogFileName = req.query.name + '.jpg';
-                ogFilePath = path_1.default.join(__dirname, 'imagesFolder', 'original', ogFileName);
-                newFileName = ogFileName + 'x' + width + 'x' + height + '.jpg';
-                newFilePath = path_1.default.join(__dirname, 'imagesFolder', 'thumbnail', newFileName);
-                if (!fs_1.default.existsSync(newFilePath)) return [3 /*break*/, 1];
-                res.sendFile(newFilePath);
-                return [3 /*break*/, 4];
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, resize_1.default)(ogFilePath, width, height, newFilePath)];
-            case 2:
-                _a.sent();
-                res.sendFile(newFilePath);
-                return [3 /*break*/, 4];
-            case 3:
-                _err_1 = _a.sent();
-                res.status(500).send({ messsage: ERR });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
+function verifyRequest(req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var ogFileName, filePath;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!(typeof req.query.name == 'undefined')) return [3 /*break*/, 1];
+                    res.status(400).send('Bad Request: You must provide a file name');
+                    return [3 /*break*/, 5];
+                case 1:
+                    if (!(typeof req.query.width == 'undefined' ||
+                        isNaN(parseInt(req.query.width)) ||
+                        parseInt(req.query.width) < 1)) return [3 /*break*/, 2];
+                    res.status(400).send("Bad Request: You must provide a positive numeric 'width' value");
+                    return [3 /*break*/, 5];
+                case 2:
+                    if (!(typeof req.query.height == 'undefined' ||
+                        isNaN(parseInt(req.query.height)) ||
+                        parseInt(req.query.height) < 1)) return [3 /*break*/, 3];
+                    res.status(400).send("Bad Request: You must provide a positive numeric 'height' value");
+                    return [3 /*break*/, 5];
+                case 3:
+                    ogFileName = req.query.name + '.jpg';
+                    filePath = path_1.default.join(__dirname, 'imagesFolder', 'original', ogFileName);
+                    return [4 /*yield*/, (0, file_exists_1.default)(filePath)];
+                case 4:
+                    if (!(_a.sent())) {
+                        res.status(400)
+                            .send("Bad Request: File name doesn't match any of the files existing on the server.\n            Please enter one of the names provided in the project REAMDE instructions");
+                    }
+                    else {
+                        next();
+                    }
+                    _a.label = 5;
+                case 5: return [2 /*return*/];
+            }
+        });
     });
-}); });
-exports.default = imagesRouter;
+}
+exports.default = verifyRequest;

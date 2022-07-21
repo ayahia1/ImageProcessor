@@ -1,10 +1,12 @@
 import sharp from 'sharp';
-async function resize(ogFileName: string, width: number, height: number, filePath: string) {
-  await sharp(__dirname + '/imagesFolder/' + ogFileName + '.jpg')
+import path from 'path';
+
+async function resize(ogFileName: string, width: number, height: number, newFilePath: string) {
+  await sharp(path.join(__dirname, 'imagesFolder', 'original', ogFileName))
     .resize({
       width: width,
       height: height
     })
-    .toFile(filePath);
+    .toFile(newFilePath);
 }
 export default resize;

@@ -18,8 +18,8 @@ async function verifyRequest(req: Request, res: Response, next: NextFunction) {
   ) {
     res.status(400).send("Bad Request: You must provide a positive numeric 'height' value");
   } else {
-    const ogFileName = req.query.name as string;
-    const filePath = path.join(__dirname, 'imagesFolder', ogFileName + '.jpg');
+    const ogFileName = (req.query.name as string) + '.jpg';
+    const filePath = path.join(__dirname, 'imagesFolder', 'original', ogFileName);
     if (!(await fileExists(filePath))) {
       res.status(400)
         .send(`Bad Request: File name doesn't match any of the files existing on the server.

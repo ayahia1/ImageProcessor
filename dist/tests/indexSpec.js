@@ -43,11 +43,11 @@ var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../index"));
 var request = (0, supertest_1.default)(index_1.default);
 describe('Testing Image processing Api', function () {
-    it('Testing that the endpoint /api/images/ works', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Testing that the endpoint /api/ connects', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api/images')];
+                case 0: return [4 /*yield*/, request.get('/api/')];
                 case 1:
                     response = _a.sent();
                     expect(response.statusCode).toBe(200);
@@ -55,7 +55,7 @@ describe('Testing Image processing Api', function () {
             }
         });
     }); });
-    it('Testing that processing images with /api/images/ works', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Testing that processing images with /api/images/ works for the fisrt time', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -63,6 +63,43 @@ describe('Testing Image processing Api', function () {
                 case 1:
                     response = _a.sent();
                     expect(response.type).toBe('image/jpeg');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Testing that processing images with /api/images/ works for subsequent calls', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/images?name=fjord&height=200&width=200')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.type).toBe('image/jpeg');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Testing that the endpoint checks the existence of the width parameter', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/images?name=fjord&height=200')];
+                case 1:
+                    response = _a.sent();
+                    console.log(response.body);
+                    expect(response.statusCode).toBe(400);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Testing that endpoint verify that the givn width is numerical positive number', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/images?name=fjord&height=200&width=-1')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.statusCode).toBe(400);
                     return [2 /*return*/];
             }
         });
