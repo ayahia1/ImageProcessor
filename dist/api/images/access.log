@@ -4,3 +4,5 @@
 ::ffff:127.0.0.1 - - [22/Jul/2022:11:02:15 +0000] "GET /api/images?name=fjord&height=200&width=200 HTTP/1.1" 200 6977 "-" "-"
 ::ffff:127.0.0.1 - - [22/Jul/2022:11:28:29 +0000] "GET /api/images?name=fjord&height=200&width=200 HTTP/1.1" 200 6977 "-" "-"
 ::ffff:127.0.0.1 - - [22/Jul/2022:11:28:29 +0000] "GET /api/images?name=fjord&height=200&width=200 HTTP/1.1" 200 6977 "-" "-"
+::ffff:127.0.0.1 - - [22/Jul/2022:11:29:08 +0000] "GET /api/images?name=fjord&height=200&width=200 HTTP/1.1" 200 6977 "-" "-"
+::ffff:127.0.0.1 - - [22/Jul/2022:11:29:08 +0000] "GET /api/images?name=fjord&height=200&width=200 HTTP/1.1" 200 6977 "-" "-"
