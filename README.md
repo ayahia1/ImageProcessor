@@ -11,7 +11,9 @@ This is an API built with **node and express** frameworks to resize images to an
 
 ## How to make calls to the API
 
-To use this API, you have to run it either in **development or production mode** (see the previous section for instructions). Then, to use it, you should use this URL format (http://localhost:3000/api/images?name={fileName}&height={desiredHeight}&width={desiredWidth}).
+To use this API, you have to run it either in **development or production mode** (see the previous section for instructions). Then, to use it, you should use this URL format
+
+http://localhost:3000/api/images?name={fileName}&height={desiredHeight}&width={desiredWidth}
 
 Note that the three parameters (name, height, and width) in the URL are mandatory; the **desiredHeight** and **desiredWidth** values should be numerical and positive, and the **fileName** value should match one of the five file names that exist on the server. The only valid file names are
 
