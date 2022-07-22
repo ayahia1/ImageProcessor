@@ -19,7 +19,7 @@ imagesRouter.use(
   })
 );
 
-imagesRouter.get('/', verifyRequest, async (req: Request, res: Response) => {
+imagesRouter.get('/', verifyRequest, async (req: Request, res: Response): Promise<void> => {
   const width = parseInt(req.query.width as unknown as string);
   const height = parseInt(req.query.height as unknown as string);
   const ogFileName = (req.query.name as unknown as string) + '.jpg';
@@ -33,7 +33,6 @@ imagesRouter.get('/', verifyRequest, async (req: Request, res: Response) => {
       await resize(ogFileName, width, height, newFilePath);
       res.sendFile(newFilePath);
     } catch (err) {
-      console.log(err);
       res.status(500).send({ messsage: ERR });
     }
   }

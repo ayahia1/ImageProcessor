@@ -16,7 +16,6 @@
   "author": "Abdel",
   "license": "ISC",
   "dependencies": {
-    "@types/supertest": "^2.0.12",
     "express": "^4.18.1",
     "file-exists": "^5.0.1",
     "jasmine": "^4.2.1",
@@ -33,6 +32,7 @@
     "@types/node": "^18.0.4",
     "@types/path-exists": "^4.0.2",
     "@types/sharp": "^0.30.4",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
     "eslint": "^8.19.0",

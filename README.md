@@ -21,6 +21,10 @@ Note that the three parameters (name, height, and width) in the URL are mandator
 4. santamonica
 5. encenadaport
 
-### Adding new files
+### Working Endpoint Example
+
+(http://localhost:3000/api/images?name=fjord&height=200&width=700)
+
+## Adding new files
 
 To add new files to the valid files on the server, go to _dist -> api -> images -> imagesFolder -> original_, and add your new file with any name to the original folder. Note that you will need to use the same file name you choose to call your API on this file.

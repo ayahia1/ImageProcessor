@@ -6,5 +6,5 @@ const port = 3000;
 
 app.use('/api', api);
 
-app.listen(port, () => console.log('App is running'));
+app.listen(port, (): void => console.log('App is running'));
 export default app;

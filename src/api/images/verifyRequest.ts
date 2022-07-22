@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import fileExists from 'file-exists';
 import path from 'path';
 
-async function verifyRequest(req: Request, res: Response, next: NextFunction) {
+async function verifyRequest(req: Request, res: Response, next: NextFunction): Promise<void> {
   if (typeof req.query.name == 'undefined') {
     res.status(400).send('Bad Request: You must provide a file name');
   } else if (
