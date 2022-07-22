@@ -24,6 +24,7 @@ Note that the three parameters (name, height, and width) in the URL are mandator
 ### Working Endpoint Example
 
 - When calling this endpoint, you should expect to see the image named fjord with a height of 200px and width of 700px
+
   http://localhost:3000/api/images?name=fjord&height=200&width=700
 
 ## Adding new files
