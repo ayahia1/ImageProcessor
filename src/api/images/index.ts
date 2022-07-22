@@ -22,7 +22,7 @@ imagesRouter.use(
 imagesRouter.get('/', verifyRequest, async (req: Request, res: Response): Promise<void> => {
   const width = parseInt(req.query.width as unknown as string);
   const height = parseInt(req.query.height as unknown as string);
-  const ogFileName = (req.query.name as unknown as string) + '.jpg';
+  const ogFileName = req.query.name as unknown as string;
   const newFileName = ogFileName + 'x' + width + 'x' + height + '.jpg';
   const newFilePath = path.join(__dirname, 'imagesFolder', 'thumbnail', newFileName);
 

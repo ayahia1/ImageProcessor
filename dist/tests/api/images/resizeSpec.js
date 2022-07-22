@@ -39,48 +39,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var fs_1 = __importDefault(require("fs"));
+var resize_1 = __importDefault(require("../../../api/images/resize"));
+var fs_1 = require("fs");
 var path_1 = __importDefault(require("path"));
-var morgan_1 = __importDefault(require("morgan"));
-var resize_1 = __importDefault(require("./resize"));
-var verifyRequest_1 = __importDefault(require("./verifyRequest"));
-var imagesRouter = (0, express_1.Router)();
-var ERR = "Internal Server Error! Please notify the api authors and check later";
-//Adding logging to keep a record for when the endpoint is trie
-var accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, 'access.log'), { flags: 'a+' });
-imagesRouter.use((0, morgan_1.default)('combined', {
-    stream: accessLogStream,
-    skip: function (_req, res) {
-        return res.statusCode != 200;
-    }
-}));
-imagesRouter.get('/', verifyRequest_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var width, height, ogFileName, newFileName, newFilePath, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                width = parseInt(req.query.width);
-                height = parseInt(req.query.height);
-                ogFileName = req.query.name;
-                newFileName = ogFileName + 'x' + width + 'x' + height + '.jpg';
-                newFilePath = path_1.default.join(__dirname, 'imagesFolder', 'thumbnail', newFileName);
-                if (!fs_1.default.existsSync(newFilePath)) return [3 /*break*/, 1];
-                res.sendFile(newFilePath);
-                return [3 /*break*/, 4];
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, resize_1.default)(ogFileName, width, height, newFilePath)];
-            case 2:
-                _a.sent();
-                res.sendFile(newFilePath);
-                return [3 /*break*/, 4];
-            case 3:
-                err_1 = _a.sent();
-                res.status(500).send({ messsage: ERR });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); });
-exports.default = imagesRouter;
+var file_exists_1 = __importDefault(require("file-exists"));
+var thumbnail_file = path_1.default.join(__dirname, '../../../api/images/imagesFolder', 'thumbnail/fjordx700x200.jpg');
+describe('Checking if the Image resizing function works', function () {
+    beforeAll(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, file_exists_1.default)(thumbnail_file)];
+                case 1:
+                    if (!_a.sent()) return [3 /*break*/, 3];
+                    return [4 /*yield*/, fs_1.promises.unlink(thumbnail_file)];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Checking that the resizing function works', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, (0, resize_1.default)('fjord', 700, 200, thumbnail_file)];
+                case 1:
+                    _b.sent();
+                    _a = expect;
+                    return [4 /*yield*/, (0, file_exists_1.default)(thumbnail_file)];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toBe(true);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    afterAll(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fs_1.promises.unlink(thumbnail_file)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
