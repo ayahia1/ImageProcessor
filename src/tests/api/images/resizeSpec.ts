@@ -8,7 +8,7 @@ const thumbnail_file = path.join(
   'thumbnail/fjordx700x200.jpg'
 );
 
-describe('Checking if the Image resizing function works', async (): Promise<void> => {
+describe('Checking if the Image resizing function works', (): void => {
   beforeAll(async (): Promise<void> => {
     if (await fileExists(thumbnail_file)) {
       await fs.unlink(thumbnail_file);
